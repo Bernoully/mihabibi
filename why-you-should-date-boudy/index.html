@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Why You Should Date Boudy?</title>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
@@ -10,431 +10,441 @@
 :root{
   --yellow:#FFE600;
   --red:#FF2D2D;
-  --blue:#0066FF;
   --black:#0A0A0A;
-  --white:#FFFFFF;
+  --nav-h:58px;
 }
-html,body{height:100%;overflow:hidden;background:var(--black);font-family:'Comic Neue',cursive;}
+html,body{
+  height:100%;overflow:hidden;
+  background:var(--black);
+  font-family:'Comic Neue',cursive;
+  -webkit-tap-highlight-color:transparent;
+}
 
-/* SLIDES CONTAINER */
+/* PROGRESS */
+.progress{
+  position:fixed;top:0;left:0;height:4px;
+  background:var(--yellow);
+  transition:width 0.25s ease;
+  z-index:300;
+}
+
+/* SLIDE COUNT */
+.slide-num{
+  position:fixed;top:7px;right:10px;
+  font-family:'Bangers',cursive;
+  font-size:0.85rem;letter-spacing:0.05em;
+  color:rgba(255,255,255,0.5);
+  z-index:300;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.6);
+}
+
+/* DECK fills space above nav */
 .deck{
-  width:100%;height:100vh;
-  position:relative;
+  position:fixed;
+  top:0;left:0;right:0;
+  bottom:var(--nav-h);
 }
 
+/* SLIDES */
 .slide{
   position:absolute;inset:0;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  padding:2rem 1.5rem;
+  padding:clamp(0.6rem,2vw,1.2rem) clamp(0.8rem,3vw,1.5rem);
+  gap:clamp(0.4rem,1.5vh,0.9rem);
   opacity:0;pointer-events:none;
-  transition:opacity 0.05s;
   text-align:center;
-  gap:1.2rem;
+  overflow:hidden;
 }
-.slide.active{opacity:1;pointer-events:all;}
+.slide.active{
+  opacity:1;pointer-events:all;
+  animation:pop 0.18s ease forwards;
+}
+@keyframes pop{from{transform:scale(0.95);opacity:0}to{transform:scale(1);opacity:1}}
 
-/* BG PATTERNS */
-.bg-yellow{background:var(--yellow);}
-.bg-red{background:var(--red);}
-.bg-blue{background:var(--blue);}
-.bg-white{background:var(--white);}
-.bg-black{background:var(--black);}
+/* BG COLOURS */
+.bg-black{background:#0A0A0A;}
 .bg-pink{background:#FF69B4;}
-.bg-green{background:#00C851;}
-.bg-orange{background:#FF8C00;}
-.bg-purple{background:#8B00FF;}
+.bg-yellow{background:#FFE600;}
+.bg-blue{background:#0055DD;}
+.bg-white{background:#FFFFFF;}
+.bg-red{background:#FF2D2D;}
 .bg-teal{background:#00CED1;}
+.bg-orange{background:#FF8C00;}
 .bg-lime{background:#ADFF2F;}
+.bg-purple{background:#8B00FF;}
 .bg-crimson{background:#DC143C;}
 
-/* MEME STYLE TEXT */
+/* TEXT */
 .impact{
   font-family:'Bangers',cursive;
-  font-size:clamp(2.2rem,7vw,5rem);
-  line-height:1.05;
-  letter-spacing:0.02em;
-  text-shadow:3px 3px 0 rgba(0,0,0,0.4);
+  font-size:clamp(1.9rem,7.5vw,4.5rem);
+  line-height:1.05;letter-spacing:0.02em;
+  text-shadow:2px 2px 0 rgba(0,0,0,0.3);
 }
-.impact.on-dark{color:#fff;}
-.impact.on-light{color:#000;}
-.impact.on-yellow{color:#000;}
+.on-dark{color:#fff;}
+.on-light{color:#000;}
+.on-yellow{color:#000;}
 
 .sub{
   font-family:'Comic Neue',cursive;
   font-weight:700;
-  font-size:clamp(1rem,3vw,1.6rem);
-  line-height:1.35;
-  max-width:650px;
+  font-size:clamp(0.85rem,3vw,1.3rem);
+  line-height:1.35;max-width:560px;
 }
-.sub.on-dark{color:rgba(255,255,255,0.9);}
-.sub.on-light{color:#111;}
-.sub.on-yellow{color:#111;}
 
 .small{
   font-family:'Comic Neue',cursive;
   font-weight:400;
-  font-size:clamp(0.8rem,2vw,1.1rem);
-  max-width:600px;
-  line-height:1.5;
-  opacity:0.8;
+  font-size:clamp(0.7rem,2vw,0.92rem);
+  max-width:540px;line-height:1.5;
 }
-.small.on-dark{color:#ddd;}
-.small.on-light{color:#333;}
-.small.on-yellow{color:#333;}
+.dim-dark{color:rgba(255,255,255,0.72);}
+.dim-light{color:#444;}
 
-/* MEME IMG */
+/* MEME IMAGE — tight height constraint */
 .meme-img{
-  max-width:min(340px,80vw);
-  max-height:38vh;
+  max-width:min(280px,72vw);
+  max-height:clamp(100px,24vh,220px);
+  width:auto;height:auto;
   object-fit:contain;
-  border:4px solid rgba(0,0,0,0.25);
+  border:3px solid rgba(0,0,0,0.2);
   border-radius:4px;
   flex-shrink:0;
+  display:block;
 }
+
+/* TAG */
+.tag{
+  font-family:'Comic Neue',cursive;font-weight:700;
+  padding:2px 10px;border-radius:999px;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+}
+.tag-dark{background:rgba(255,255,255,0.15);color:#fff;}
+.tag-light{background:rgba(0,0,0,0.1);color:#000;}
 
 /* STAMP */
 .stamp{
-  background:#fff;
-  color:#000;
   font-family:'Bangers',cursive;
-  font-size:1.1rem;
-  letter-spacing:0.1em;
-  padding:4px 14px;
+  font-size:0.9rem;letter-spacing:0.1em;
+  padding:3px 10px;
   border:3px solid #000;
   transform:rotate(-2deg);
   display:inline-block;
-  margin-top:0.3rem;
+  background:#fff;color:#000;
 }
-.stamp.red{background:var(--red);color:#fff;border-color:#fff;}
-.stamp.green{background:#00C851;color:#fff;border-color:#fff;}
+.stamp-red{background:var(--red);color:#fff;border-color:#fff;}
+.stamp-green{background:#00C851;color:#fff;border-color:#fff;}
+.stamp-inv{background:#000;color:#fff;border-color:#000;}
 
-/* SLIDE NUMBER */
-.slide-num{
-  position:fixed;bottom:1.2rem;right:1.4rem;
-  font-family:'Bangers',cursive;
-  font-size:1rem;
-  letter-spacing:0.05em;
-  color:rgba(255,255,255,0.4);
-  z-index:100;
+/* BUBBLE */
+.bubble{
+  background:#fff;color:#000;
+  padding:0.65rem 1rem;
+  border-radius:1.1rem;border:3px solid #000;
+  position:relative;
+  font-family:'Comic Neue',cursive;font-weight:700;
+  font-size:clamp(0.8rem,2.6vw,1.05rem);
+  max-width:460px;line-height:1.4;
 }
-
-/* NAV BUTTONS */
-.nav{
-  position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);
-  display:flex;gap:1rem;z-index:100;
+.bubble::after{
+  content:'';position:absolute;
+  bottom:-15px;left:50%;transform:translateX(-50%);
+  border:8px solid transparent;border-top:11px solid #000;
 }
-.btn{
-  background:rgba(255,255,255,0.15);
-  border:2px solid rgba(255,255,255,0.4);
-  color:#fff;
-  font-family:'Bangers',cursive;
-  font-size:1.1rem;
-  letter-spacing:0.1em;
-  padding:0.4rem 1.4rem;
-  cursor:pointer;
-  border-radius:2px;
-  transition:background 0.15s;
-  backdrop-filter:blur(4px);
-}
-.btn:hover{background:rgba(255,255,255,0.3);}
-
-/* PROGRESS */
-.progress{
-  position:fixed;top:0;left:0;
-  height:4px;background:var(--yellow);
-  transition:width 0.3s ease;
-  z-index:100;
+.bubble::before{
+  content:'';position:absolute;
+  bottom:-11px;left:50%;transform:translateX(-50%);
+  border:7px solid transparent;border-top:10px solid #fff;z-index:1;
 }
 
 /* CHECKLIST */
 .checklist{
-  list-style:none;
-  text-align:left;
-  display:flex;flex-direction:column;gap:0.6rem;
+  list-style:none;text-align:left;
+  display:flex;flex-direction:column;gap:0.35rem;
+  max-width:500px;width:100%;
 }
 .checklist li{
-  font-family:'Comic Neue',cursive;
-  font-weight:700;
-  font-size:clamp(0.95rem,2.5vw,1.3rem);
-  display:flex;align-items:flex-start;gap:0.5rem;
+  font-family:'Comic Neue',cursive;font-weight:700;
+  font-size:clamp(0.75rem,2.3vw,1rem);
+  display:flex;align-items:flex-start;gap:0.35rem;line-height:1.3;
 }
-.checklist li::before{content:'✅';}
+.checklist li::before{content:'✅';flex-shrink:0;}
 
 /* BIG EMOJI */
-.big-emoji{font-size:clamp(3rem,10vw,6rem);line-height:1;}
+.big-emoji{font-size:clamp(2.2rem,7vw,4rem);line-height:1;}
 
-/* TAG */
-.tag{
-  background:rgba(0,0,0,0.2);
-  padding:3px 12px;
-  border-radius:999px;
-  font-size:0.75rem;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  font-weight:700;
-}
-.tag.on-dark{color:#fff;}
-.tag.on-light{color:#000;background:rgba(0,0,0,0.1);}
-
-/* BUBBLE */
-.bubble{
-  background:#fff;
-  color:#000;
-  padding:1rem 1.5rem;
-  border-radius:1.5rem;
-  border:3px solid #000;
-  position:relative;
-  font-family:'Comic Neue',cursive;
-  font-weight:700;
-  font-size:clamp(0.9rem,2.5vw,1.2rem);
-  max-width:500px;
-  line-height:1.4;
-}
-.bubble::after{
-  content:'';
-  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
-  border:10px solid transparent;
-  border-top:12px solid #000;
-}
-.bubble::before{
-  content:'';
-  position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);
-  border:9px solid transparent;
-  border-top:11px solid #fff;
-  z-index:1;
-}
-
-/* FINAL CTA */
-.cta-btn{
-  background:var(--yellow);
-  color:#000;
-  font-family:'Bangers',cursive;
-  font-size:clamp(1.4rem,4vw,2.2rem);
-  letter-spacing:0.08em;
-  padding:0.8rem 2.5rem;
-  border:none;
-  border-radius:3px;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-block;
-  box-shadow:4px 4px 0 #000;
-  transition:transform 0.1s,box-shadow 0.1s;
-}
-.cta-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;}
-.cta-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;}
-
-/* EMOJI ROW */
-.emoji-row{display:flex;gap:1rem;font-size:2.5rem;flex-wrap:wrap;justify-content:center;}
-
-/* SHAKE ANIM */
-@keyframes shake{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-3deg)}40%{transform:rotate(3deg)}60%{transform:rotate(-2deg)}80%{transform:rotate(2deg)}}
+/* ANIMS */
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bounce{animation:bounce 0.8s ease infinite;}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-3deg)}40%{transform:rotate(3deg)}60%{transform:rotate(-2deg)}80%{transform:rotate(2deg)}}
 .shake{animation:shake 0.5s ease infinite;}
 
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.bounce{animation:bounce 0.8s ease infinite;}
-
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
-/* SLIDE ENTER */
-@keyframes slidePop{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
-.slide.active{animation:slidePop 0.2s ease forwards;}
+/* NAV — always black bar at bottom, always visible regardless of slide colour */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  background:#111;
+  border-top:2px solid rgba(255,255,255,0.12);
+  z-index:300;
+}
+.btn{
+  background:rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.45);
+  color:#fff;
+  font-family:'Bangers',cursive;
+  font-size:1.05rem;letter-spacing:0.1em;
+  padding:0.45rem 1.5rem;
+  cursor:pointer;border-radius:3px;
+  transition:background 0.15s,transform 0.1s;
+  min-width:105px;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:hover{background:rgba(255,255,255,0.22);}
+.btn:active{transform:scale(0.95);}
+.btn:disabled{opacity:0.25;cursor:default;}
 </style>
 </head>
 <body>
 
 <div class="progress" id="prog"></div>
-<div class="slide-num" id="slideNum">1 / 18</div>
+<div class="slide-num" id="snum"></div>
 
-<div class="deck" id="deck">
+<div class="deck">
 
-  <!-- SLIDE 1: Title -->
+  <!-- 1 -->
   <div class="slide active bg-black">
-    <div class="tag on-dark">A very important presentation</div>
-    <div class="impact on-dark" style="font-size:clamp(2.5rem,9vw,6.5rem);">Why You Should<br>Date Boudy?</div>
-    <img class="meme-img" src="https://i.imgflip.com/30b1gx.jpg" alt="This is fine meme"/>
+    <div class="tag tag-dark">A very important presentation</div>
+    <div class="impact on-dark" style="font-size:clamp(2.2rem,9vw,5rem);">Why You Should<br>Date Boudy?</div>
+    <img class="meme-img" src="https://i.imgflip.com/30b1gx.jpg" alt="This is fine"/>
     <div class="sub on-dark" style="color:var(--yellow);">A thorough, unbiased, totally objective case</div>
-    <div class="small on-dark">Press → or click NEXT to begin your destiny</div>
+    <div class="small dim-dark">Swipe or tap NEXT to begin your destiny</div>
   </div>
 
-  <!-- SLIDE 2: Hi you look amazing -->
+  <!-- 2 -->
   <div class="slide bg-pink">
     <div class="impact on-light">Hi... 👋</div>
-    <img class="meme-img" src="https://i.imgflip.com/1ur9b0.jpg" alt="You look amazing meme"/>
-    <div class="bubble">You look amazing btw.<br>No reason. Just saying. Totally objective.</div>
+    <img class="meme-img" src="https://i.imgflip.com/1ur9b0.jpg" alt="You look amazing"/>
+    <div class="bubble">You look amazing btw.<br>No reason. Just saying.<br>Totally objective.</div>
   </div>
 
-  <!-- SLIDE 3: Let's go on a date -->
+  <!-- 3 -->
   <div class="slide bg-yellow">
-    <div class="impact on-yellow" style="font-size:clamp(2.8rem,9vw,6rem);">Let's go<br>on a date 🗓️</div>
-    <img class="meme-img" src="https://i.imgflip.com/4t0m5.jpg" alt="Y U No meme"/>
+    <div class="impact on-yellow">Let's go<br>on a date 🗓️</div>
+    <img class="meme-img" src="https://i.imgflip.com/4t0m5.jpg" alt="Y U No"/>
     <div class="sub on-yellow">Y U NO already said yes??</div>
   </div>
 
-  <!-- SLIDE 4: It will be fun -->
+  <!-- 4 -->
   <div class="slide bg-blue">
-    <div class="tag on-dark">Guaranteed™</div>
-    <div class="impact on-dark">I think it will<br>be FUN 🎉</div>
-    <img class="meme-img" src="https://i.imgflip.com/9vct.jpg" alt="Futurama Fry meme"/>
-    <div class="sub on-dark">Not sure if it'll be fun...<br>or the MOST fun you've ever had</div>
+    <div class="tag tag-dark">Guaranteed™</div>
+    <div class="impact on-dark">It will be FUN 🎉</div>
+    <img class="meme-img" src="https://i.imgflip.com/9vct.jpg" alt="Futurama Fry"/>
+    <div class="sub on-dark">Not sure if fun…<br>or the MOST fun you've ever had</div>
   </div>
 
-  <!-- SLIDE 5: I'll maybe pay -->
+  <!-- 5 -->
   <div class="slide bg-white">
     <div class="impact on-light">I'll maybe pay 💸</div>
-    <img class="meme-img" src="https://i.imgflip.com/3lmzyx.jpg" alt="Distracted boyfriend meme"/>
-    <div class="sub on-light">Me → looking at the menu<br>Also me → looking at the prices</div>
-    <div class="stamp red">MAYBE*</div>
-    <div class="small on-light">*"maybe" is a legally binding maybe</div>
+    <img class="meme-img" src="https://i.imgflip.com/3lmzyx.jpg" alt="Distracted boyfriend"/>
+    <div class="sub on-light">Me → menu &nbsp;|&nbsp; Also me → prices</div>
+    <div class="stamp stamp-red">MAYBE*</div>
+    <div class="small dim-light">*"maybe" is a legally binding maybe</div>
   </div>
 
-  <!-- SLIDE 6: Why shouldn't you miss this -->
+  <!-- 6 -->
   <div class="slide bg-red">
     <div class="impact on-dark">Why miss this? 🤔</div>
-    <img class="meme-img" src="https://i.imgflip.com/1otk96.jpg" alt="Roll Safe meme"/>
-    <div class="bubble">Can't regret a date<br>if you never go on one.<br><br>...wait no. Go on the date.</div>
+    <img class="meme-img" src="https://i.imgflip.com/1otk96.jpg" alt="Roll Safe"/>
+    <div class="bubble">Can't regret a date you never go on.<br><br>…wait no. Go on the date.</div>
   </div>
 
-  <!-- SLIDE 7: You're both single -->
+  <!-- 7 -->
   <div class="slide bg-black">
-    <div class="tag on-dark">MATHEMATICS</div>
+    <div class="tag tag-dark">MATHEMATICS</div>
     <div class="impact on-dark" style="color:var(--yellow);">Boudy is single. 👱‍♂️<br>You are single. 👱‍♀️</div>
-    <img class="meme-img" src="https://i.imgflip.com/1bij.jpg" alt="Math lady meme"/>
+    <img class="meme-img" src="https://i.imgflip.com/1bij.jpg" alt="Math lady"/>
     <div class="sub on-dark">Something is <span style="color:var(--red);">very wrong</span> here.<br>The math does NOT math.</div>
   </div>
 
-  <!-- SLIDE 8: Worst case scenario -->
+  <!-- 8 -->
   <div class="slide bg-teal">
-    <div class="impact on-light" style="font-size:clamp(1.8rem,5vw,3.5rem);">What's the WORST<br>that can happen? 🤷</div>
-    <img class="meme-img" src="https://i.imgflip.com/26jxvz.jpg" alt="Expanding brain meme"/>
-    <ul class="checklist small on-light" style="color:#000;">
-      <li>Not lovers → friends → recommend friends → 2 new couples for Madrid 💏</li>
-      <li>Not friends → "someone I know" → business connections 💼</li>
+    <div class="impact on-light" style="font-size:clamp(1.6rem,5vw,3rem);">Worst that<br>can happen? 🤷</div>
+    <img class="meme-img" src="https://i.imgflip.com/26jxvz.jpg" alt="Expanding brain"/>
+    <ul class="checklist small on-light">
+      <li>Not lovers → friends → match our friends → 2 new couples 💏</li>
+      <li>Not friends → business connection 💼</li>
       <li>Not that → extra Instagram follower 📱</li>
-      <li>Not that → at least an extra like on your next post 👍</li>
+      <li>Not that → at least one extra like 👍</li>
     </ul>
     <div class="stamp">LITERALLY ONLY WINS</div>
   </div>
 
-  <!-- SLIDE 9: WHY BOUDY section -->
+  <!-- 9 -->
   <div class="slide bg-black">
     <div class="big-emoji bounce">🌟</div>
-    <div class="impact on-dark" style="font-size:clamp(3rem,10vw,7rem);color:var(--yellow);">WHY BOUDY?</div>
-    <div class="sub on-dark">Glad you asked. Please hold your applause.</div>
-    <img class="meme-img" src="https://i.imgflip.com/22bdq6.jpg" alt="Hide the pain harold meme"/>
+    <div class="impact on-dark" style="font-size:clamp(3rem,11vw,6rem);color:var(--yellow);">WHY BOUDY?</div>
+    <div class="sub on-dark">Glad you asked.<br>Please hold your applause.</div>
+    <img class="meme-img" src="https://i.imgflip.com/22bdq6.jpg" alt="Hide the pain harold"/>
   </div>
 
-  <!-- SLIDE 10: Boudy is fun -->
+  <!-- 10 -->
   <div class="slide bg-orange">
     <div class="impact on-light">Boudy is FUN! 🎊</div>
-    <img class="meme-img" src="https://i.imgflip.com/3si4.jpg" alt="Jealous friends meme"/>
+    <img class="meme-img" src="https://i.imgflip.com/3si4.jpg" alt="Jealous friends"/>
     <div class="bubble">Your friends will be SO jealous.<br>SO. JEALOUS.</div>
-    <div class="sub on-light">They'll be like "wow how did you find him"<br>and you'll say "a website told me to"</div>
+    <div class="small dim-light">They'll say "how did you find him?"<br>You'll say "a website told me to" 😂</div>
   </div>
 
-  <!-- SLIDE 11: Animals -->
+  <!-- 11 -->
   <div class="slide bg-lime">
     <div class="impact on-light">Do you love animals? 🐶</div>
-    <img class="meme-img" src="https://i.imgflip.com/1e7ql7.jpg" alt="Dog meme such wow"/>
+    <img class="meme-img" src="https://i.imgflip.com/1e7ql7.jpg" alt="Such wow doge"/>
     <div class="sub on-light">Such animal lover. Very compatible. Wow.</div>
-    <div class="stamp" style="background:#000;color:#fff;border-color:#000;">BOUDY: ✅ SAME</div>
+    <div class="stamp stamp-inv">BOUDY: ✅ SAME</div>
   </div>
 
-  <!-- SLIDE 12: Beach -->
+  <!-- 12: Beach — using tested working imgflip URL -->
   <div class="slide bg-blue">
     <div class="impact on-dark">Do you love<br>the beach? 🏖️</div>
-    <img class="meme-img" src="https://i.imgflip.com/8p0so.jpg" alt="Cheering spongebob meme"/>
-    <div class="sub on-dark">Boudy loves the beach too!!<br>Oh my god. It's fate.</div>
-    <div class="stamp red">FATE CONFIRMED</div>
+    <img class="meme-img" src="https://i.imgflip.com/wxica.jpg" alt="Beach meme"/>
+    <div class="sub on-dark">Boudy loves the beach too!!<br>Oh my god. It's fate. 🌊</div>
+    <div class="stamp stamp-red">FATE CONFIRMED</div>
   </div>
 
-  <!-- SLIDE 13: Travel -->
+  <!-- 13 -->
   <div class="slide bg-purple">
     <div class="impact on-dark">Do you love<br>traveling? ✈️</div>
-    <img class="meme-img" src="https://i.imgflip.com/2hgfw.jpg" alt="Much travel doge"/>
-    <div class="sub on-dark">Boudy. Also. Loves. Travel.<br>Are you seeing what I'm seeing here?!</div>
+    <img class="meme-img" src="https://i.imgflip.com/2hgfw.jpg" alt="Travel doge"/>
+    <div class="sub on-dark">Boudy. Also. Loves. Travel.<br>Are you seeing what I'm seeing?!</div>
   </div>
 
-  <!-- SLIDE 14: Music -->
+  <!-- 14 -->
   <div class="slide bg-crimson">
     <div class="impact on-dark">Do you love<br>music? 🎵</div>
     <img class="meme-img" src="https://i.imgflip.com/1otk96.jpg" alt="Roll safe music"/>
-    <div class="bubble">Can't have bad music taste<br>if you just agree with Boudy's playlist.</div>
-    <div class="sub on-dark" style="color:rgba(255,255,255,0.9);">Boudy loves music too. Obviously. Of course.</div>
+    <div class="bubble">Can't have bad taste<br>if you agree with Boudy's playlist.</div>
+    <div class="sub on-dark">Boudy loves music too. Obviously.</div>
   </div>
 
-  <!-- SLIDE 15: So much in common -->
+  <!-- 15: So much in common — compact -->
   <div class="slide bg-yellow">
-    <div class="impact on-yellow" style="font-size:clamp(1.8rem,5vw,3.5rem);">ooh you see?? 👀<br>SO MUCH IN COMMON!</div>
-    <img class="meme-img" src="https://i.imgflip.com/1wkykc.jpg" alt="Always has been meme"/>
-    <div class="sub on-yellow">Animals ✅  Beach ✅  Travel ✅  Music ✅<br>A perfect match was always here.</div>
+    <div class="impact on-yellow" style="font-size:clamp(1.7rem,5.5vw,3.2rem);">ooh you see?? 👀<br>SO MUCH IN COMMON!</div>
+    <img class="meme-img" src="https://i.imgflip.com/1g8my4.jpg" alt="Success kid - so much in common"/>
+    <div class="sub on-yellow">Animals ✅ &nbsp;Beach ✅ &nbsp;Travel ✅ &nbsp;Music ✅</div>
+    <div class="small on-yellow dim-light">A perfect match was always here.</div>
   </div>
 
-  <!-- SLIDE 16: Skiing / Russia -->
+  <!-- 16: Ski / Russia — compact -->
   <div class="slide bg-white">
-    <div class="impact on-light" style="font-size:clamp(1.6rem,4.5vw,3rem);">Do you wanna ski<br>this summer? ⛷️<br><br>Visit Russia<br>this year? 🇷🇺</div>
-    <img class="meme-img" src="https://i.imgflip.com/6etav.jpg" alt="No meme"/>
-    <div class="sub on-light" style="color:var(--red);font-size:clamp(1.3rem,4vw,2rem);">No? 🤝 Boudy also NO.</div>
-    <div class="stamp green">ANOTHER MATCH!</div>
-    <div class="small on-light">You literally agree on everything. This is SCIENCE.</div>
+    <div class="impact on-light" style="font-size:clamp(1.5rem,5vw,2.8rem);">Ski this summer? ⛷️<br>Visit Russia? 🇷🇺</div>
+    <div style="
+      display:flex;flex-direction:column;gap:0;
+      max-width:min(260px,70vw);
+      border:3px solid rgba(0,0,0,0.25);border-radius:4px;overflow:hidden;
+      flex-shrink:0;font-family:'Bangers',cursive;
+    ">
+      <div style="background:#1a1a2e;padding:0.55rem 0.8rem;display:flex;align-items:center;gap:0.5rem;">
+        <span style="font-size:1.6rem;">🙅‍♂️</span>
+        <span style="color:#ff6b6b;font-size:clamp(0.9rem,3vw,1.2rem);letter-spacing:0.05em;">Ski this summer?</span>
+      </div>
+      <div style="background:#16213e;padding:0.55rem 0.8rem;display:flex;align-items:center;gap:0.5rem;border-top:2px solid rgba(255,255,255,0.1);">
+        <span style="font-size:1.6rem;">🙅‍♂️</span>
+        <span style="color:#ff6b6b;font-size:clamp(0.9rem,3vw,1.2rem);letter-spacing:0.05em;">Visit Russia?</span>
+      </div>
+      <div style="background:#0f3460;padding:0.55rem 0.8rem;display:flex;align-items:center;gap:0.5rem;border-top:2px solid rgba(255,255,255,0.1);">
+        <span style="font-size:1.6rem;">👯‍♂️</span>
+        <span style="color:#4ecca3;font-size:clamp(0.9rem,3vw,1.2rem);letter-spacing:0.05em;">Boudy: SAME.</span>
+      </div>
+    </div>
+    <div class="sub on-light" style="color:var(--red);font-size:clamp(1.1rem,4vw,1.7rem);">No?? 🤝 Boudy also: NO.</div>
+    <div class="stamp stamp-green">ANOTHER MATCH!</div>
+    <div class="small dim-light">You agree on everything. This is SCIENCE.</div>
   </div>
 
-  <!-- SLIDE 17: Our kids are waiting -->
+  <!-- 17 -->
   <div class="slide bg-black">
-    <div class="tag on-dark">IN CONCLUSION</div>
-    <div class="impact on-dark" style="color:var(--yellow);font-size:clamp(2rem,6vw,4.5rem);">Let's stop<br>wasting time! ⏰</div>
+    <div class="tag tag-dark">IN CONCLUSION</div>
+    <div class="impact on-dark" style="color:var(--yellow);font-size:clamp(1.9rem,7vw,4.2rem);">Let's stop<br>wasting time! ⏰</div>
     <img class="meme-img" src="https://i.imgflip.com/4acd7j.png" alt="Our kids are waiting"/>
     <div class="sub on-dark" style="color:var(--red);">Our kids are waiting.</div>
-    <div class="small on-dark">This is not a drill. The clock is ticking. Madrid is watching.</div>
+    <div class="small dim-dark">This is not a drill. Madrid is watching.</div>
   </div>
 
-  <!-- SLIDE 18: Final CTA -->
+  <!-- 18 -->
   <div class="slide bg-red">
     <div class="big-emoji shake">💌</div>
-    <div class="impact on-dark" style="font-size:clamp(2.5rem,8vw,5.5rem);">So... what do<br>you say? 😏</div>
-    <img class="meme-img" src="https://i.imgflip.com/1ur9b0.jpg" alt="Yes Chad meme"/>
-    <div class="sub on-dark">You made it to the end.<br>That means you're already kind of interested.</div>
-    <div class="small on-dark" style="color:rgba(255,255,255,0.7);margin-top:0.3rem;">
-      ⚠️ This presentation was made with zero shame and maximum confidence.<br>
-      Results may vary. Terms: one (1) coffee. No pressure. Kind of pressure.
+    <div class="impact on-dark" style="font-size:clamp(2rem,7.5vw,4.5rem);">So... what do<br>you say? 😏</div>
+    <img class="meme-img" src="https://i.imgflip.com/1ur9b0.jpg" alt="Final slide"/>
+    <div class="sub on-dark">You made it to the end.<br>You're already kind of interested. 👀</div>
+    <div class="small dim-dark">⚠️ Made with zero shame &amp; maximum confidence.<br>Terms: one (1) coffee. Kind of pressure.</div>
+  </div>
+
+  <!-- 19: IG CTA -->
+  <div class="slide bg-black">
+    <div class="tag tag-dark">THE FINAL STEP</div>
+    <div class="impact on-dark" style="color:var(--yellow);font-size:clamp(1.8rem,6.5vw,4rem);">Don't be shy. 🙈</div>
+    <img class="meme-img" src="https://i.imgflip.com/1yxkcp.jpg" alt="Just do it"/>
+    <div class="sub on-dark">If you're interested…<br>just text Boudy on Instagram.</div>
+    <a href="https://instagram.com/abdulabdelmonem" target="_blank" style="
+      display:inline-block;
+      background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+      color:#fff;
+      font-family:'Bangers',cursive;
+      font-size:clamp(1.3rem,5vw,2rem);
+      letter-spacing:0.08em;
+      padding:0.7rem 1.8rem;
+      border-radius:12px;
+      text-decoration:none;
+      box-shadow:4px 4px 0 rgba(255,255,255,0.2);
+      margin-top:0.2rem;
+    ">📸 @abdulabdelmonem</a>
+    <div class="bubble" style="max-width:340px;">
+      Just say <strong>"Aloha" 🌺</strong><br>and Boudy will take it from there.
     </div>
+    <div class="small dim-dark">No pickup lines needed. No resume required.<br>Just one word. You've got this. 💪</div>
   </div>
 
 </div>
 
-<!-- NAV -->
-<div class="nav">
-  <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← PREV</button>
-  <button class="btn" id="nextBtn" onclick="changeSlide(1)">NEXT →</button>
-</div>
+<!-- NAV — always black, always visible -->
+<nav class="nav">
+  <button class="btn" id="prevBtn" onclick="go(-1)">← PREV</button>
+  <button class="btn" id="nextBtn" onclick="go(1)">NEXT →</button>
+</nav>
 
 <script>
 const slides = document.querySelectorAll('.slide');
 const prog = document.getElementById('prog');
-const slideNum = document.getElementById('slideNum');
+const snum = document.getElementById('snum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 let cur = 0;
+const N = slides.length;
 
-function show(n){
+function show(n) {
   slides[cur].classList.remove('active');
-  cur = (n + slides.length) % slides.length;
+  cur = ((n % N) + N) % N;
   slides[cur].classList.add('active');
-  prog.style.width = ((cur+1)/slides.length*100)+'%';
-  slideNum.textContent = (cur+1)+' / '+slides.length;
+  prog.style.width = ((cur + 1) / N * 100) + '%';
+  snum.textContent = (cur + 1) + ' / ' + N;
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === N - 1;
 }
 
-function changeSlide(dir){ show(cur+dir); }
+function go(d) { show(cur + d); }
 
 document.addEventListener('keydown', e => {
-  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') changeSlide(1);
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp') changeSlide(-1);
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
 });
 
-// swipe support
-let tx=0;
-document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
-document.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-tx;
-  if(Math.abs(dx)>50) changeSlide(dx<0?1:-1);
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
 });
 
 show(0);
